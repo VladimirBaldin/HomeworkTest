@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="user_image_width">70dp</dimen>
+    <dimen name="vehicle_image_width">50dp</dimen>
+    <dimen name="vehicle_color_width">50dp</dimen>
+    <dimen name="vehicle_color_height">20dp</dimen>
+
+</resources>
