@@ -96,9 +96,9 @@ public class VehicleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             // request the nearest road to the vehicle
             List<LatLng> plots = new ArrayList<LatLng>();
             Location me = mListener.getMyLocation();
-//            if (me != null)
-//                plots.add(new LatLng(me.getLatitude(), me.getLongitude()));
-            plots.add(new LatLng(56.95, 24.12)); // for testing
+            if (me != null)
+                plots.add(new LatLng(me.getLatitude(), me.getLongitude()));
+//            plots.add(new LatLng(56.95, 24.12)); // for testing
             plots.add(vehicle.getLocation());
             requestRoad(plots);
         }
