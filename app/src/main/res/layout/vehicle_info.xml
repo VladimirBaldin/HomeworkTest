@@ -17,18 +17,18 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/iv_vehicle"/>
 
-    <!--<TextView-->
-        <!--android:id="@+id/tv_address"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_toRightOf="@id/iv_vehicle"-->
-        <!--android:layout_below="@id/tv_name"/>-->
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_vehicle"
+        android:layout_below="@id/tv_name"/>
 
     <View
         android:id="@+id/view_color"
         android:layout_width="@dimen/vehicle_color_width"
         android:layout_height="@dimen/vehicle_color_height"
         android:layout_toRightOf="@id/iv_vehicle"
-        android:layout_below="@id/tv_name"/>
+        android:layout_below="@id/tv_address"/>
 
 </RelativeLayout>

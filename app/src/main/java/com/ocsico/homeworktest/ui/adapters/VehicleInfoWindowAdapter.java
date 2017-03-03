@@ -2,7 +2,11 @@ package com.ocsico.homeworktest.ui.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +27,7 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,10 +65,10 @@ public class VehicleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         mMarkerShowingInfoWindow = marker;
         final LatLng position = marker.getPosition();
-
-        // get vehicle for this marker
         double lat = position.latitude;
         double lon = position.longitude;
+
+        // get vehicle for this marker
         Vehicle vehicle = null;
         for (Vehicle v : mVehicles) {
             if (v.lat == lat && v.lon == lon) {
@@ -73,7 +78,20 @@ public class VehicleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         }
 
         if (vehicle != null) {
+            // get address
+            String address = null;
+            Geocoder geocoder = new Geocoder(mContext);
+            try {
+                List<Address> addresses = geocoder.getFromLocation(vehicle.lat, vehicle.lon, 5);
+                if (addresses.size() > 0)
+                    address = addresses.get(0).getAddressLine(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             ((TextView) view.findViewById(R.id.tv_name)).setText(vehicle.getName());
+            if (!TextUtils.isEmpty(address))
+                ((TextView) view.findViewById(R.id.tv_address)).setText(address);
             view.findViewById(R.id.view_color).setBackgroundColor(vehicle.getColor());
             final ImageView iv = (ImageView) view.findViewById(R.id.iv_vehicle);
             ImageLoader.getInstance().displayImage(vehicle.foto, iv);
@@ -124,7 +142,8 @@ public class VehicleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             public void onRequestSuccess(final RouteList result) {
                 if (mListener != null) {
                     Route route = result.getShortestRoute();
-                    mListener.onRoadLoaded(route.getPoints());
+                    if (route != null)
+                        mListener.onRoadLoaded(route.getPoints());
                 }
             }
 
