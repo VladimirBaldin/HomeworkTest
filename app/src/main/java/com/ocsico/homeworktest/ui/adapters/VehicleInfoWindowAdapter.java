@@ -132,7 +132,6 @@ public class VehicleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     }
 
     private void requestRoad(final List<LatLng> plots) {
-        String path = createRoadsPath(plots);
         String origin = plots.get(0).latitude + "," + plots.get(0).longitude;
         String destination = plots.get(1).latitude + "," + plots.get(1).longitude;
         DirectionsRequest spiceRequest = new DirectionsRequest(origin, destination);
@@ -151,18 +150,5 @@ public class VehicleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             }
 
         });
-    }
-
-    private String createRoadsPath(List<LatLng> plots) {
-        StringBuilder path = new StringBuilder();
-        if (plots.size() > 0) {
-            for (int i = plots.size() - 1; i >= 0; i--) {
-                path.append(plots.get(i).latitude).append(",").append(plots.get(i).longitude);
-                if (i != 0) {
-                    path.append("|");
-                }
-            }
-        }
-        return path.toString();
     }
 }
