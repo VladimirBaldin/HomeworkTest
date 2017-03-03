@@ -93,6 +93,8 @@ public class VehicleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             if (!TextUtils.isEmpty(address))
                 ((TextView) view.findViewById(R.id.tv_address)).setText(address);
             view.findViewById(R.id.view_color).setBackgroundColor(vehicle.getColor());
+
+            // set vehicle image
             final ImageView iv = (ImageView) view.findViewById(R.id.iv_vehicle);
             ImageLoader.getInstance().displayImage(vehicle.foto, iv);
             List<Bitmap> bitmaps = MemoryCacheUtils.findCachedBitmapsForImageUri(vehicle.foto, ImageLoader.getInstance().getMemoryCache());
@@ -111,6 +113,7 @@ public class VehicleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             } else {
                 iv.setImageBitmap(bitmaps.get(0));
             }
+
             // request the nearest road to the vehicle
             List<LatLng> plots = new ArrayList<LatLng>();
             Location me = mListener.getMyLocation();
