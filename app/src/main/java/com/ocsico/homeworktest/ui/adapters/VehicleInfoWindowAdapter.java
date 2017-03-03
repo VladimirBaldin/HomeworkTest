@@ -15,10 +15,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 import com.ocsico.homeworktest.R;
-import com.ocsico.homeworktest.net.model.SnappedPoint;
-import com.ocsico.homeworktest.net.model.SnappedPoints;
 import com.ocsico.homeworktest.model.Vehicle;
-import com.ocsico.homeworktest.net.requests.SnapToRoadsSpiceRequest;
+import com.ocsico.homeworktest.net.model.routes.Route;
+import com.ocsico.homeworktest.net.model.routes.RouteList;
+import com.ocsico.homeworktest.net.requests.DirectionsRequest;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -42,7 +42,7 @@ public class VehicleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     private VehicleInfoListener mListener;
 
     public interface VehicleInfoListener {
-        void onRoadLoaded(List<SnappedPoint> points);
+        void onRoadLoaded(List<LatLng> points);
         Location getMyLocation();
     }
 
@@ -112,16 +112,19 @@ public class VehicleInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private void requestRoad(final List<LatLng> plots) {
         String path = createRoadsPath(plots);
-        SnapToRoadsSpiceRequest spiceRequest = new SnapToRoadsSpiceRequest(path, true);
-        mSpiceManager.execute(spiceRequest, new RequestListener<SnappedPoints>() {
+        String origin = plots.get(0).latitude + "," + plots.get(0).longitude;
+        String destination = plots.get(1).latitude + "," + plots.get(1).longitude;
+        DirectionsRequest spiceRequest = new DirectionsRequest(origin, destination);
+        mSpiceManager.execute(spiceRequest, new RequestListener<RouteList>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
             }
 
             @Override
-            public void onRequestSuccess(final SnappedPoints result) {
+            public void onRequestSuccess(final RouteList result) {
                 if (mListener != null) {
-                    mListener.onRoadLoaded(result.snappedPoints);
+                    Route route = result.getShortestRoute();
+                    mListener.onRoadLoaded(route.getPoints());
                 }
             }
 

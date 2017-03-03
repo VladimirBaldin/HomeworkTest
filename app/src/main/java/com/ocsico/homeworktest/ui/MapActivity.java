@@ -26,7 +26,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.ocsico.homeworktest.R;
 import com.ocsico.homeworktest.db.DbHelper;
 import com.ocsico.homeworktest.net.BaseRequestListener;
-import com.ocsico.homeworktest.net.model.SnappedPoint;
 import com.ocsico.homeworktest.model.Vehicle;
 import com.ocsico.homeworktest.net.model.VehiclePosition;
 import com.ocsico.homeworktest.net.model.VehiclePositions;
@@ -36,7 +35,6 @@ import com.ocsico.homeworktest.ui.adapters.VehicleInfoWindowAdapter;
 import com.ocsico.homeworktest.util.Constants;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -125,10 +123,10 @@ public class MapActivity extends AbsActivity implements OnMapReadyCallback, Vehi
     }
 
     @Override
-    public void onRoadLoaded(List<SnappedPoint> points) {
+    public void onRoadLoaded(List<LatLng> points) {
         PolylineOptions opts = new PolylineOptions();
-        for (SnappedPoint point : points) {
-            opts.add(point.getLatLng());
+        for (LatLng point : points) {
+            opts.add(point);
         }
         clearPath();
         mPath = mMap.addPolyline(opts);

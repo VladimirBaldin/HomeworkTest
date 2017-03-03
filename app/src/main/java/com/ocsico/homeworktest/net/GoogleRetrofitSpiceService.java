@@ -1,6 +1,6 @@
 package com.ocsico.homeworktest.net;
 
-import com.ocsico.homeworktest.net.api.RoadsGoogleApi;
+import com.ocsico.homeworktest.net.api.GoogleApi;
 import com.octo.android.robospice.retrofit.RetrofitGsonSpiceService;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -15,13 +15,12 @@ import retrofit.client.OkClient;
 
 public class GoogleRetrofitSpiceService extends RetrofitGsonSpiceService {
 
-    private final static String BASE_URL = "https://roads.googleapis.com";
-//    private final static String BASE_URL = "https://maps.googleapis.com"; // TODO Try to use.
+    private final static String BASE_URL = "https://maps.googleapis.com";
 
     @Override
     public void onCreate() {
         super.onCreate();
-        addRetrofitInterface(RoadsGoogleApi.class);
+        addRetrofitInterface(GoogleApi.class);
     }
 
     @Override
